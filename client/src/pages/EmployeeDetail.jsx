@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 function EmployeeDetails() {
   const { id } = useParams();
 
@@ -29,7 +31,7 @@ function EmployeeDetails() {
       setError("");
 
       const response = await axios.get(
-        `http://localhost:5000/api/employees/${id}`,
+        `${API_URL}/api/employees/${id}`,
       );
 
       setEmployee(response.data.employee);
@@ -47,7 +49,7 @@ function EmployeeDetails() {
       setAttendanceLoading(true);
 
       const response = await axios.get(
-        `http://localhost:5000/api/attendances/employee/${id}`,
+        `${API_URL}/api/attendances/employee/${id}`,
       );
 
       setAttendanceHistory(response.data.attendances || []);

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 function Employees() {
   const [employees, setEmployees] = useState([]);
   const [search, setSearch] = useState("");
@@ -30,7 +32,7 @@ function Employees() {
       setSaving(true);
       setError("");
 
-      await axios.post("http://localhost:5000/api/employees", {
+      await axios.post(`${API_URL}/api/employees`, {
         ...form,
         employeeId: form.employeeId.trim().toUpperCase(),
         email: form.email.trim().toLowerCase(),
@@ -62,7 +64,7 @@ function Employees() {
       setLoading(true);
       setError("");
 
-      const response = await axios.get("http://localhost:5000/api/employees");
+      const response = await axios.get(`${API_URL}/api/employees`);
 
       setEmployees(
         response.data.employees ||

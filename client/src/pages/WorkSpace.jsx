@@ -12,8 +12,10 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import Navbar from "./Navbar";
 
-const API_URL = "http://localhost:5000/api/tasks";
-const EMPLOYEE_API_URL = "http://localhost:5000/api/employees";
+const BASE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+const API_URL = `${BASE_API_URL}/api/tasks`;
+const EMPLOYEE_API_URL = `${BASE_API_URL}/api/employees`;
 
 const emptyForm = {
   title: "",
@@ -393,7 +395,7 @@ function WorkSpace() {
           {/* Filters */}
           <div className="mb-6 flex flex-wrap gap-2">
             {["All", "Pending", "In Progress", "Completed"].map((status) => (
-              <button                 
+              <button
                 key={status}
                 onClick={() => setFilter(status)}
                 className={`rounded-full px-4 py-2 text-sm font-medium ${

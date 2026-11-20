@@ -12,6 +12,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 function Attendance() {
   const [attendances, setAttendances] = useState([]);
   const [employees, setEmployees] = useState([]);
@@ -32,7 +34,7 @@ function Attendance() {
       setError("");
 
       const response = await axios.get(
-        "http://localhost:5000/api/attendances/",
+        `${API_URL}/api/attendances/`,
         {
           withCredentials: true,
         },
@@ -51,7 +53,7 @@ function Attendance() {
   // Fetch employees
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/employees/", {
+      const response = await axios.get(`${API_URL}/api/employees/`, {
         withCredentials: true,
       });
 

@@ -2,6 +2,8 @@ import { CalendarDays, CheckCircle, Clock, Users, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 function Dashboard() {
   const [dashboard, setDashboard] = useState(null);
   const [employees, setEmployees] = useState([]);
@@ -75,7 +77,7 @@ function Dashboard() {
 
   const fetchLeaveTypes = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/leave-types/");
+      const response = await fetch(`${API_URL}/api/leave-types/`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch leave types");
@@ -124,7 +126,7 @@ function Dashboard() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/leave-requests/",
+        `${API_URL}/api/leave-requests/`,
         {
           method: "POST",
           headers: {
@@ -175,7 +177,7 @@ function Dashboard() {
       setActionMessage("");
 
       const response = await fetch(
-        `http://localhost:5000/api/leave-requests/${leaveRequestId}`,
+        `${API_URL}/api/leave-requests/${leaveRequestId}`,
         {
           method: "PUT",
           headers: {

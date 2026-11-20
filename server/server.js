@@ -19,9 +19,14 @@ console.log("JWT_SECRET loaded:", Boolean(process.env.JWT_SECRET));
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://company-management-system-xi.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true,
   }),
 );

@@ -16,7 +16,9 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const TASK_API_URL = "http://localhost:5000/api/tasks";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+const TASK_API_URL = `${API_URL}/api/tasks`;
 
 function MyDashboard() {
   const navigate = useNavigate();
@@ -50,7 +52,7 @@ function MyDashboard() {
   useEffect(() => {
     const fetchMyProfile = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/auth/me", {
+        const response = await axios.get(`${API_URL}/api/auth/me`, {
           withCredentials: true,
         });
 
@@ -90,7 +92,7 @@ function MyDashboard() {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/auth/logout",
+        `${API_URL}/api/auth/logout`,
         {},
         { withCredentials: true },
       );
