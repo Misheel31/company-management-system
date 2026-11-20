@@ -250,6 +250,80 @@ export const getCurrentUser = async (req, res) => {
 };
 
 // ======================================
+// CHANGE PASSWORD
+// ======================================
+
+export const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    // Validate required fields
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return res.status(400).json({
+        message: "All password fields are required.",
+      });
+    }
+
+    // Check new password length
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        message: "New password must be at least 6 characters long.",
+      });
+    }
+
+    // Confirm new password
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        message: "New passwords do not match.",
+      });
+    }
+
+    // Prevent using the same password
+    if (currentPassword === newPassword) {
+      return res.status(400).json({
+        message: "New password must be different from your current password.",
+      });
+    }
+
+    // Find the logged-in user
+    const user = await User.findById(req.user._id);
+
+    if (!user || !user.isActive) {
+      return res.status(404).json({
+        message: "User account not found or inactive.",
+      });
+    }
+
+    // Verify current password
+    const isPasswordCorrect = await bcrypt.compare(
+      currentPassword,
+      user.password,
+    );
+
+    if (!isPasswordCorrect) {
+      return res.status(401).json({
+        message: "Your current password is incorrect.",
+      });
+    }
+
+    // Hash and save new password
+    user.password = await bcrypt.hash(newPassword, 10);
+
+    await user.save();
+
+    return res.status(200).json({
+      message: "Password changed successfully.",
+    });
+  } catch (error) {
+    console.error("Change password error:", error);
+
+    return res.status(500).json({
+      message: "Unable to change password. Please try again.",
+    });
+  }
+};
+
+// ======================================
 // FORGOT PASSWORD
 // ======================================
 
