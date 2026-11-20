@@ -33,8 +33,9 @@ function Dashboard() {
 
   const fetchDashboard = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/dashboard/");
-
+      const response = await fetch(`${API_URL}/api/dashboard/`, {
+        credentials: "include",
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch dashboard");
       }
@@ -57,8 +58,9 @@ function Dashboard() {
 
   const fetchEmployees = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/employees/");
-
+      const response = await fetch(`${API_URL}/api/employees/`, {
+        credentials: "include",
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch employees");
       }
@@ -125,16 +127,13 @@ function Dashboard() {
     setFormMessage("");
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/leave-requests/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+      const response = await fetch(`${API_URL}/api/leave-requests/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(formData),
+      });
 
       const data = await response.json();
 
