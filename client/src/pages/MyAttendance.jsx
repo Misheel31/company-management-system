@@ -3,7 +3,7 @@ import { ArrowLeft, CalendarCheck, Clock, RefreshCw } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const API = "http://localhost:5000/api/attendances";
+const API = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/attendances`;
 
 function MyAttendance() {
   const [attendances, setAttendances] = useState([]);
